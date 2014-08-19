@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Styles of Famous Painters</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Styles of Famous Painters">
+  <meta name="author" content="Daniel Pradilla">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Styles of Famous Painters</h1>
+    <h2>a subjetive assessment</h2>
+    <p>Daniel Pradilla<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>What&#39;s this?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>A subjective assesment of 54 classic painters, done by <a href="http://en.wikipedia.org/wiki/Roger_de_Piles">Roger de Piles</a></li>
+<li>The painters were assessed on a 0 to 20 scale on four characteristics: composition, drawing, colour and expression.
+<img src="assets/img/painters.png" alt="width"></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>How do I use it?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Go to <a href="http://danielpradilla.shinyapps.io/painters/">http://danielpradilla.shinyapps.io/painters/</a></li>
+<li>Use the sliders to filter the list of painters. Check out the frequency chart by clicking on the &quot;Chart&quot; tab</li>
+<li>Also, you can click over a painter&#39;s name to see a sample of his work</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>How did you make it?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><a href="http://shiny.rstudio.com/">Shiny</a> + <a href="http://rcharts.io/">rCharts</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>How did you filter the list?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Like so:</p>
+
+<pre><code class="R">schools&lt;-data.frame(School=c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,&quot;F&quot;,&quot;G&quot;,&quot;H&quot;), 
+SchoolName=c(&quot;Renaissance&quot;, &quot;Mannerist&quot;, &quot;Seicento&quot;,
+&quot;Venetian&quot;,&quot;Lombard&quot;,&quot;Sixteenth Century&quot;,&quot;Seventeenth Century&quot;, &quot;French&quot;) )
+
+data&lt;-painters[painters$Composition &gt;= input$Composition 
+             &amp; painters$Drawing &gt;= input$Drawing
+             &amp; painters$Colour &gt;= input$Colour
+             &amp; painters$Expression &gt;= input$Expression, ]
+data&lt;-cbind(Painter = rownames(data),data)
+data&lt;-merge(data[,], schools, by=&quot;School&quot;)
+data[order(data$Painter),
+  c(&quot;Painter&quot;,&quot;SchoolName&quot;,&quot;Composition&quot;,&quot;Drawing&quot;,&quot;Colour&quot;,&quot;Expression&quot;)
+  ]
+</code></pre></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>I see that you made a lookup table</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Oh, this?</li>
+</ul>
+
+<pre><code class="r">data.frame(School=c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,&quot;F&quot;,&quot;G&quot;,&quot;H&quot;), 
+    SchoolName=c(&quot;Renaissance&quot;, &quot;Mannerist&quot;, &quot;Seicento&quot;,
+    &quot;Venetian&quot;,&quot;Lombard&quot;,&quot;Sixteenth Century&quot;,&quot;Seventeenth Century&quot;, &quot;French&quot;) )
+</code></pre>
+
+<pre><code>##   School          SchoolName
+## 1      A         Renaissance
+## 2      B           Mannerist
+## 3      C            Seicento
+## 4      D            Venetian
+## 5      E             Lombard
+## 6      F   Sixteenth Century
+## 7      G Seventeenth Century
+## 8      H              French
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>How did you create the chart?</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="R">output$painterschart &lt;- renderChart({
+        mypainters &lt;- getPainters(input)
+        paintersdf &lt;- as.data.frame(table(mypainters[, &quot;SchoolName&quot;]))
+        colnames(paintersdf) &lt;- c(&quot;SchoolName&quot;,&quot;Freq&quot;) 
+        p1 &lt;- nPlot(Freq ~ SchoolName, type=&quot;discreteBarChart&quot;, data = paintersdf)
+        p1$set(dom = &quot;painterschart&quot;,width=500)
+        p1$xAxis(
+          rotateLabels=-45, height=200
+        )
+        p1$yAxis(tickFormat=&quot;#!function(d) {return d}!#&quot;)
+        p1$chart(showValues=&#39;true&#39;
+                 ,valueFormat=&quot;#!function(d) {return d}!#&quot;
+        )
+        return(p1)
+      })
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>And what about the painting preview?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>That was some JavaScript:</li>
+</ul>
+
+<pre><code class="js">searchPainter = function(name) {
+  var baseUrl =&#39;https://ajax.googleapis.com/ajax/services/search/images?v=1.0&amp;q=&#39;;
+  var url = baseUrl + name + &#39; painting commons.wikimedia&#39; + &#39;&amp;callback=?&#39;;
+  console.log(&#39;getting painting for &#39; + name);
+  $.getJSON(url, function(json){
+    var results=json.responseData.results;
+    if (results[0]){
+      setImage(results[0].url,results[0].originalContextUrl);    
+    } else {
+      setDefaultImage();
+    }
+  })
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="dark" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>Thanks!</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p><a href="http://danielpradilla.info">danielpradilla.info</a></p></li>
+<li><p><a href="http://twitter.com/danielpradilla">twitter</a></p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='What&#39;s this?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How do I use it?'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='How did you make it?'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='How did you filter the list?'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='I see that you made a lookup table'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='How did you create the chart?'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='And what about the painting preview?'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='Thanks!'>
+         8
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

@@ -1,0 +1,12 @@
+ slide.dark {
+  background:#515151;
+  color:white
+}
+slide.dark h2 {
+  color:white;
+}
+
+slide.dark a{
+  color:#d7df2a;
+  border-bottom:1px solid #d7df2a;
+}
